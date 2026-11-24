@@ -1,0 +1,1265 @@
+# WAYAMBA PLASTIC
+
+## Multi-Factory Production & Inventory ERP – Technical Specification v1.0
+
+SYSTEM SPECIFICATION
+
+# WAYAMBA PLASTIC
+
+Production · Inventory · Dispatch · Multi-Factory Management
+
+Platform
+
+Flutter + Supabase
+
+Database
+
+PostgreSQL
+
+Factories
+
+3+ locations
+
+Users
+
+6–10 accounts
+
+Primary business operations
+
+PP PalletsPP PelletsRaw MaterialsDay/Night ProductionCustomer DispatchInter-factory Transfers
+
+This specification is the foundation I would give to a Flutter/Supabase development team. It defines the database, security, stock calculation rules, workflows and application screens.
+
+One important business rule is established:
+
+Production value will be calculated using the selling price, not production cost.
+
+For example:
+
+- Production: 1,500 kg
+- Selling price: Rs. 310/kg
+- Production value: Rs. 465,000
+
+This is a production-at-selling-price reporting value. It must not be treated as actual sales revenue or inventory accounting cost. The system should keep these figures separate.
+
+# 1\. Finalized business requirements
+
+| Requirement | Final configuration |
+| --- | --- |
+| System name | WAYAMBA PLASTIC |
+| Factories | Unlimited, minimum 3 initially |
+| Products | PP pallets and PP pellets |
+| Machines | 2–5 initially |
+| Shifts | Day and Night |
+| Users | 6–10 initially |
+| Currency | LKR |
+| Weight unit | KG |
+| Pallet unit | PCS |
+| Production value | Selling price × production quantity |
+| Raw material sources | Other factories and external suppliers |
+| Dispatch | Customer and invoice records |
+| Documents | PDF, JPG, PNG |
+| Approval | Manager approval for all stock transactions |
+| Devices | Laptop, Android, iPhone |
+| Database | Supabase PostgreSQL |
+| Application | Flutter |
+
+## Factory configuration
+
+The system should support:
+
+- Factory 01 – Main Factory
+- Factory 02 – Raw Material Factory
+- Factory 03 – Production Factory
+- Factory 04+ – Additional locations
+
+These are example labels. The administrator can configure actual factory names.
+
+# 2\. System architecture
+
+WAYAMBA PLASTIC USERS
+
+Admin · Managers · Supervisors · Storekeepers · Accounts
+
+Flutter Web
+
+Laptop
+
+Flutter
+
+Android
+
+Flutter
+
+iPhone
+
+Supabase Authentication
+
+PostgreSQL Database
+
+Private Document Storage
+
+Database Functions & Approvals
+
+CENTRALIZED STOCK & TRANSACTION ENGINE
+
+All factory stock records updated from approved transactions
+
+### Technology decisions
+
+| Area | Technology |
+| --- | --- |
+| Frontend | Flutter |
+| State management | Riverpod |
+| Navigation | GoRouter |
+| Backend | Supabase |
+| Database | PostgreSQL |
+| Login | Supabase Auth |
+| Files | Supabase Storage |
+| PDF reports | Flutter PDF packages |
+| Charts | FL Chart |
+| Date handling | Database timestamps + factory local date |
+| Error tracking | Sentry or equivalent |
+| Version control | GitHub |
+
+Use one shared Flutter codebase with responsive web and mobile layouts.
+
+# 3\. PostgreSQL database design
+
+I recommend organizing the database into six logical groups.
+
+Database structure
+
+1. Organization – factories, users, roles and permissions
+2. Master data – products, raw materials, customers, suppliers, machines
+3. Operations – production, consumption, dispatch, receipts
+4. Inventory – stock ledger, stock balances, adjustments
+5. Transfers – inter-factory dispatch and receiving
+6. Documents and audit – bills, files, approvals and history
+
+## 3.1 Complete table catalogue
+
+The following is the recommended database table list.
+
+| No. | Table | Purpose |
+| --- | --- | --- |
+| 1 | factories | Factory information |
+| 2 | profiles | Employee profiles |
+| 3 | roles | User roles |
+| 4 | factory\_memberships | User-to-factory access |
+| 5 | products | Finished products |
+| 6 | raw\_materials | Raw material master |
+| 7 | units | KG, PCS, etc. |
+| 8 | customers | Customer information |
+| 9 | suppliers | Supplier information |
+| 10 | machines | Factory machines |
+| 11 | shifts | Day/night shifts |
+| 12 | price\_history | Selling price history |
+| 13 | production\_orders | Production records |
+| 14 | production\_lines | Produced products |
+| 15 | production\_operators | Operators per production |
+| 16 | material\_consumption | Raw materials consumed |
+| 17 | stock\_transactions | Transaction headers |
+| 18 | stock\_transaction\_lines | Transaction details |
+| 19 | stock\_movements | Immutable stock ledger |
+| 20 | stock\_balances | Current stock summary |
+| 21 | dispatches | Customer dispatches |
+| 22 | transfers | Factory transfer headers |
+| 23 | transfer\_receipts | Actual receiving confirmation |
+| 24 | documents | Uploaded bills and documents |
+| 25 | approvals | Manager approval history |
+| 26 | audit\_logs | User activity history |
+| 27 | stock\_counts | Physical stocktaking |
+| 28 | stock\_count\_lines | Physical stock quantities |
+
+The transaction tables will be linked instead of maintaining separate, disconnected stock calculations.
+
+## 3.2 Database relationship diagram
+
+mermaid
+
+```mermaid
+
+erDiagram
+    FACTORIES ||--o{ FACTORY_MEMBERSHIPS : has
+    PROFILES ||--o{ FACTORY_MEMBERSHIPS : assigned
+    FACTORIES ||--o{ MACHINES : owns
+    FACTORIES ||--o{ PRODUCTION_ORDERS : records
+    MACHINES ||--o{ PRODUCTION_ORDERS : used_for
+    SHIFTS ||--o{ PRODUCTION_ORDERS : schedules
+    PRODUCTION_ORDERS ||--o{ PRODUCTION_LINES : produces
+    PRODUCTION_ORDERS ||--o{ MATERIAL_CONSUMPTION : consumes
+    PRODUCTS ||--o{ PRODUCTION_LINES : identifies
+    RAW_MATERIALS ||--o{ MATERIAL_CONSUMPTION : identifies
+    FACTORIES ||--o{ STOCK_TRANSACTIONS : records
+    STOCK_TRANSACTIONS ||--o{ STOCK_TRANSACTION_LINES : contains
+    STOCK_TRANSACTION_LINES ||--o{ STOCK_MOVEMENTS : posts
+    FACTORIES ||--o{ STOCK_BALANCES : holds
+    PRODUCTS ||--o{ STOCK_BALANCES : tracks
+    CUSTOMERS ||--o{ DISPATCHES : receives
+    TRANSFERS ||--o{ TRANSFER_RECEIPTS : confirms
+    STOCK_TRANSACTIONS ||--o{ APPROVALS : requires
+    STOCK_TRANSACTIONS ||--o{ DOCUMENTS : attaches
+```
+
+## 3.3 Core PostgreSQL schema
+
+Below is the proposed foundational SQL. It establishes the core tables, keys, relationships and constraints. It is a starting migration, not the entire finished application.
+
+sql
+
+```sql
+
+-- WAYAMBA PLASTIC ERP
+-- PostgreSQL / Supabase foundation
+
+create extension if not exists pgcrypto;
+
+create type public.app_role as enum (
+  'super_admin',
+  'factory_manager',
+  'production_supervisor',
+  'storekeeper',
+  'dispatch_officer',
+  'accounts_user',
+  'operator'
+);
+
+create type public.transaction_type as enum (
+  'opening',
+  'raw_receipt',
+  'production',
+  'dispatch',
+  'material_consumption',
+  'transfer_out',
+  'transfer_in',
+  'adjustment',
+  'return'
+);
+
+create type public.transaction_status as enum (
+  'draft',
+  'submitted',
+  'approved',
+  'rejected',
+  'cancelled'
+);
+
+create type public.movement_direction as enum (
+  'in',
+  'out'
+);
+
+-- 1. FACTORIES
+create table public.factories (
+  id uuid primary key default gen_random_uuid(),
+  factory_code text unique not null,
+  factory_name text not null,
+  address text,
+  is_active boolean not null default true,
+  created_at timestamptz not null default now()
+);
+
+-- 2. EMPLOYEE PROFILES
+create table public.profiles (
+  id uuid primary key references auth.users(id),
+  full_name text not null,
+  phone text,
+  email text,
+  is_active boolean not null default true,
+  created_at timestamptz not null default now()
+);
+
+-- 3. FACTORY MEMBERSHIPS
+create table public.factory_memberships (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references public.profiles(id),
+  factory_id uuid not null references public.factories(id),
+  role public.app_role not null,
+  is_active boolean not null default true,
+  created_at timestamptz not null default now(),
+  unique(user_id, factory_id)
+);
+
+-- 4. UNITS
+create table public.units (
+  id uuid primary key default gen_random_uuid(),
+  unit_code text unique not null,
+  unit_name text not null
+);
+
+insert into public.units(unit_code, unit_name)
+values ('KG', 'Kilogram'),
+       ('PCS', 'Pieces');
+
+-- 5. PRODUCTS
+create table public.products (
+  id uuid primary key default gen_random_uuid(),
+  product_code text unique not null,
+  product_name text not null,
+  product_category text not null,
+  unit_id uuid references public.units(id),
+  is_active boolean not null default true,
+  created_at timestamptz default now()
+);
+
+-- 6. RAW MATERIALS
+create table public.raw_materials (
+  id uuid primary key default gen_random_uuid(),
+  material_code text unique not null,
+  material_name text not null,
+  unit_id uuid references public.units(id),
+  is_active boolean not null default true
+);
+
+-- 7. CUSTOMERS
+create table public.customers (
+  id uuid primary key default gen_random_uuid(),
+  customer_code text unique not null,
+  customer_name text not null,
+  phone text,
+  address text,
+  is_active boolean default true
+);
+
+-- 8. SUPPLIERS
+create table public.suppliers (
+  id uuid primary key default gen_random_uuid(),
+  supplier_code text unique not null,
+  supplier_name text not null,
+  phone text,
+  address text,
+  is_active boolean default true
+);
+
+-- 9. MACHINES
+create table public.machines (
+  id uuid primary key default gen_random_uuid(),
+  factory_id uuid not null references public.factories(id),
+  machine_code text not null,
+  machine_name text not null,
+  machine_type text,
+  is_active boolean default true,
+  unique(factory_id, machine_code)
+);
+
+-- 10. SHIFTS
+create table public.shifts (
+  id uuid primary key default gen_random_uuid(),
+  shift_name text not null unique,
+  start_time time,
+  end_time time
+);
+
+-- 11. SELLING PRICE HISTORY
+create table public.price_history (
+  id uuid primary key default gen_random_uuid(),
+  product_id uuid not null references public.products(id),
+  factory_id uuid references public.factories(id),
+  selling_price numeric(18,2) not null check(selling_price >= 0),
+  effective_from date not null,
+  effective_to date,
+  created_by uuid references public.profiles(id),
+  created_at timestamptz default now(),
+  check(effective_to is null or effective_to >= effective_from)
+);
+
+-- 12. STOCK TRANSACTIONS
+create table public.stock_transactions (
+  id uuid primary key default gen_random_uuid(),
+  transaction_number text unique not null,
+  factory_id uuid not null references public.factories(id),
+  transaction_type public.transaction_type not null,
+  status public.transaction_status default 'draft',
+  transaction_date date not null,
+  reference_number text,
+  customer_id uuid references public.customers(id),
+  supplier_id uuid references public.suppliers(id),
+  created_by uuid not null references public.profiles(id),
+  submitted_at timestamptz,
+  approved_by uuid references public.profiles(id),
+  approved_at timestamptz,
+  remarks text,
+  created_at timestamptz default now()
+);
+
+-- 13. STOCK TRANSACTION LINES
+create table public.stock_transaction_lines (
+  id uuid primary key default gen_random_uuid(),
+  transaction_id uuid not null
+    references public.stock_transactions(id),
+  product_id uuid references public.products(id),
+  material_id uuid references public.raw_materials(id),
+  direction public.movement_direction not null,
+  quantity numeric(18,3) not null check(quantity > 0),
+  unit_price numeric(18,2) not null check(unit_price >= 0),
+  total_value numeric(18,2)
+    generated always as (round(quantity * unit_price, 2)) stored,
+  remarks text,
+  check(
+    (product_id is not null and material_id is null)
+    or
+    (product_id is null and material_id is not null)
+  )
+);
+
+-- 14. STOCK MOVEMENT LEDGER
+create table public.stock_movements (
+  id uuid primary key default gen_random_uuid(),
+  transaction_line_id uuid not null unique
+    references public.stock_transaction_lines(id),
+  factory_id uuid not null references public.factories(id),
+  product_id uuid references public.products(id),
+  material_id uuid references public.raw_materials(id),
+  direction public.movement_direction not null,
+  quantity numeric(18,3) not null check(quantity > 0),
+  unit_value numeric(18,2) not null,
+  movement_date date not null,
+  created_at timestamptz default now()
+);
+
+-- 15. CURRENT STOCK SUMMARY
+create table public.stock_balances (
+  id uuid primary key default gen_random_uuid(),
+  factory_id uuid not null references public.factories(id),
+  product_id uuid references public.products(id),
+  material_id uuid references public.raw_materials(id),
+  quantity_on_hand numeric(18,3) not null default 0,
+  updated_at timestamptz default now(),
+  check(
+    (product_id is not null and material_id is null)
+    or
+    (product_id is null and material_id is not null)
+  ),
+  unique(factory_id, product_id),
+  unique(factory_id, material_id)
+);
+
+-- 16. PRODUCTION
+create table public.production_orders (
+  id uuid primary key default gen_random_uuid(),
+  transaction_id uuid not null unique
+    references public.stock_transactions(id),
+  machine_id uuid not null references public.machines(id),
+  shift_id uuid not null references public.shifts(id),
+  production_date date not null,
+  remarks text
+);
+
+-- 17. PRODUCTION OUTPUT
+create table public.production_lines (
+  id uuid primary key default gen_random_uuid(),
+  production_id uuid not null references public.production_orders(id),
+  product_id uuid not null references public.products(id),
+  quantity numeric(18,3) not null check(quantity > 0),
+  selling_price numeric(18,2) not null check(selling_price >= 0),
+  production_value numeric(18,2)
+    generated always as (
+      round(quantity * selling_price, 2)
+    ) stored
+);
+
+-- 18. PRODUCTION OPERATORS
+create table public.production_operators (
+  id uuid primary key default gen_random_uuid(),
+  production_id uuid not null references public.production_orders(id),
+  operator_id uuid not null references public.profiles(id),
+  operator_role text,
+  unique(production_id, operator_id)
+);
+
+-- 19. MATERIAL CONSUMPTION
+create table public.material_consumption (
+  id uuid primary key default gen_random_uuid(),
+  production_id uuid not null references public.production_orders(id),
+  material_id uuid not null references public.raw_materials(id),
+  quantity numeric(18,3) not null check(quantity > 0),
+  unit_cost numeric(18,2) not null check(unit_cost >= 0)
+);
+
+-- 20. DISPATCH
+create table public.dispatches (
+  id uuid primary key default gen_random_uuid(),
+  transaction_id uuid not null unique
+    references public.stock_transactions(id),
+  customer_id uuid not null references public.customers(id),
+  dispatch_date date not null,
+  vehicle_number text,
+  delivery_note text
+);
+
+-- 21. FACTORY TRANSFERS
+create table public.transfers (
+  id uuid primary key default gen_random_uuid(),
+  transfer_number text unique not null,
+  from_factory uuid not null references public.factories(id),
+  to_factory uuid not null references public.factories(id),
+  transfer_out_transaction uuid references public.stock_transactions(id),
+  transfer_in_transaction uuid references public.stock_transactions(id),
+  transfer_status text not null default 'draft',
+  created_at timestamptz default now(),
+  check(from_factory <> to_factory)
+);
+
+-- 22. TRANSFER RECEIPTS
+create table public.transfer_receipts (
+  id uuid primary key default gen_random_uuid(),
+  transfer_id uuid not null references public.transfers(id),
+  received_by uuid not null references public.profiles(id),
+  received_at timestamptz default now(),
+  receiving_remarks text
+);
+
+-- 23. DOCUMENTS
+create table public.documents (
+  id uuid primary key default gen_random_uuid(),
+  transaction_id uuid not null references public.stock_transactions(id),
+  file_path text not null,
+  file_name text not null,
+  mime_type text not null,
+  document_type text,
+  uploaded_by uuid not null references public.profiles(id),
+  uploaded_at timestamptz default now()
+);
+
+-- 24. APPROVALS
+create table public.approvals (
+  id uuid primary key default gen_random_uuid(),
+  transaction_id uuid not null references public.stock_transactions(id),
+  approved_by uuid not null references public.profiles(id),
+  decision text not null,
+  remarks text,
+  decided_at timestamptz default now()
+);
+
+-- 25. AUDIT LOGS
+create table public.audit_logs (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid references public.profiles(id),
+  factory_id uuid references public.factories(id),
+  action text not null,
+  table_name text not null,
+  record_id uuid,
+  old_data jsonb,
+  new_data jsonb,
+  created_at timestamptz default now()
+);
+
+-- 26. STOCK COUNTS
+create table public.stock_counts (
+  id uuid primary key default gen_random_uuid(),
+  factory_id uuid not null references public.factories(id),
+  count_date date not null,
+  status text default 'draft',
+  counted_by uuid references public.profiles(id)
+);
+
+create table public.stock_count_lines (
+  id uuid primary key default gen_random_uuid(),
+  stock_count_id uuid not null references public.stock_counts(id),
+  product_id uuid references public.products(id),
+  material_id uuid references public.raw_materials(id),
+  system_quantity numeric(18,3) not null,
+  actual_quantity numeric(18,3) not null,
+  check(
+    (product_id is not null and material_id is null)
+    or
+    (product_id is null and material_id is not null)
+  )
+);
+```
+
+Implementation note: Before deployment, add composite foreign-key constraints ensuring that a production machine belongs to the same factory as its production transaction, and that every stock movement's product/material matches its transaction line. Add indexes for factory, date, status and product queries. Use a separate stock-balance uniqueness strategy for the product/material alternatives.
+
+# 4\. Stock calculation engine
+
+This is the most important part of WAYAMBA PLASTIC.
+
+The stock engine must never depend on employees manually calculating closing balances.
+
+## 4.1 Finished goods calculation
+
+$$
+\text{Closing Stock} =
+\text{Opening Stock}+\text{Production}-\text{Dispatch}
+$$
+
+Example:
+
+| Description | PP Black Pellets |
+| --- | --- |
+| Opening stock | 5,000 kg |
+| Day production | +1,500 kg |
+| Night production | +1,200 kg |
+| Customer dispatch | -2,000 kg |
+| Closing stock | 5,700 kg |
+
+## 4.2 Raw material calculation
+
+$$
+\begin{aligned}
+\text{Closing Raw Stock} ={}&
+\text{Opening Stock}\\
+&+\text{Supplier Receipts}\\
+&+\text{Factory Receipts}\\
+&-\text{Production Consumption}\\
+&-\text{Factory Transfers Out}\\
+&-\text{Other Issues}
+\end{aligned}
+$$
+
+## 4.3 Approval rules
+
+Stock transaction lifecycle
+
+Draft
+
+User enters transaction
+
+Submitted
+
+Waiting for manager
+
+Approved
+
+Stock ledger updated
+
+Rejected
+
+No stock movement
+
+The approval function should:
+
+1. Verify the manager's factory access.
+2. Verify the transaction is submitted.
+3. Prevent self-approval where required.
+4. Check stock availability for outgoing transactions.
+5. Check all transaction lines and document requirements.
+6. Insert stock movements.
+7. Update stock balances.
+8. Record the manager and timestamp.
+9. Change the transaction status to approved.
+10. Commit everything in one database transaction.
+
+All ten steps should run atomically. If one fails, none of the stock changes should be committed.
+
+Very important: A Flutter button must not directly update `stock_balances`. Only the trusted database approval function should post stock movements.
+
+# 5\. Supabase security and Row Level Security
+
+You have three or more factories, so factory-level security is essential.
+
+For example:
+
+- Factory 01 manager can access Factory 01.
+- Factory 02 manager can access Factory 02.
+- Super Admin can access all factories.
+- Operators cannot access another factory's information.
+
+## 5.1 Authentication
+
+Use Supabase Auth.
+
+Each employee receives:
+
+- Email or username-based login (email authentication is easiest to integrate).
+- Password.
+- Assigned factory.
+- Assigned role.
+- Active/inactive status.
+
+Do not allow public registration. The administrator creates or invites employee accounts.
+
+## 5.2 Security helper functions
+
+The following is an illustrative starting point for your RLS functions.
+
+sql
+
+```sql
+
+-- Check whether logged-in user belongs to factory
+
+create or replace function public.has_factory_access(
+  p_factory_id uuid
+)
+returns boolean
+language sql
+stable
+security definer
+set search_path = ''
+as $$
+  select exists (
+    select 1
+    from public.factory_memberships m
+    where m.user_id = (select auth.uid())
+      and m.factory_id = p_factory_id
+      and m.is_active = true
+  );
+$$;
+
+-- Check role in a specific factory
+
+create or replace function public.has_factory_role(
+  p_factory_id uuid,
+  p_roles public.app_role[]
+)
+returns boolean
+language sql
+stable
+security definer
+set search_path = ''
+as $$
+  select exists (
+    select 1
+    from public.factory_memberships m
+    where m.user_id = (select auth.uid())
+      and m.factory_id = p_factory_id
+      and m.role = any(p_roles)
+      and m.is_active = true
+  );
+$$;
+
+-- Check global Super Admin membership
+
+create or replace function public.is_super_admin()
+returns boolean
+language sql
+stable
+security definer
+set search_path = ''
+as $$
+  select exists (
+    select 1
+    from public.factory_memberships m
+    where m.user_id = (select auth.uid())
+      and m.role = 'super_admin'
+      and m.is_active = true
+  );
+$$;
+```
+
+These functions should be owned by a trusted database owner, with appropriate `EXECUTE` grants, and should not be exposed as unrestricted administrative RPCs.
+
+## 5.3 Enable RLS
+
+sql
+
+```sql
+
+alter table public.factories enable row level security;
+alter table public.profiles enable row level security;
+alter table public.factory_memberships enable row level security;
+alter table public.products enable row level security;
+alter table public.raw_materials enable row level security;
+alter table public.machines enable row level security;
+alter table public.stock_transactions enable row level security;
+alter table public.stock_transaction_lines enable row level security;
+alter table public.stock_movements enable row level security;
+alter table public.stock_balances enable row level security;
+alter table public.production_orders enable row level security;
+alter table public.dispatches enable row level security;
+alter table public.transfers enable row level security;
+alter table public.documents enable row level security;
+alter table public.approvals enable row level security;
+alter table public.audit_logs enable row level security;
+```
+
+## 5.4 Factory-level access policies
+
+Example policies:
+
+sql
+
+```sql
+
+-- FACTORY ACCESS
+create policy "Users view assigned factories"
+on public.factories
+for select
+to authenticated
+using (
+  public.is_super_admin()
+  or public.has_factory_access(id)
+);
+
+-- TRANSACTION ACCESS
+create policy "View assigned factory transactions"
+on public.stock_transactions
+for select
+to authenticated
+using (
+  public.is_super_admin()
+  or public.has_factory_access(factory_id)
+);
+
+-- PRODUCTION ACCESS
+create policy "View factory production"
+on public.production_orders
+for select
+to authenticated
+using (
+  exists (
+    select 1
+    from public.stock_transactions t
+    where t.id = production_orders.transaction_id
+      and (
+        public.is_super_admin()
+        or public.has_factory_access(t.factory_id)
+      )
+  )
+);
+
+-- STOCK BALANCE ACCESS
+create policy "View assigned factory stock"
+on public.stock_balances
+for select
+to authenticated
+using (
+  public.is_super_admin()
+  or public.has_factory_access(factory_id)
+);
+
+-- STOCK MOVEMENT ACCESS
+create policy "View assigned factory movements"
+on public.stock_movements
+for select
+to authenticated
+using (
+  public.is_super_admin()
+  or public.has_factory_access(factory_id)
+);
+```
+
+For the remaining tables, create equivalent factory-scoped policies. Documents must be accessible only when the linked transaction belongs to an authorized factory.
+
+Security rules:
+
+- Users must not be able to assign themselves an administrator role.
+- Users must not approve their own stock transactions.
+- Users must not change approved transaction lines.
+- Users must not directly insert stock movements.
+- Users must not directly modify stock balances.
+- Only approved database functions may post stock.
+- Audit logs must not be editable by ordinary users.
+- Never put the Supabase service-role key in Flutter.
+
+These policies are a security foundation, not the complete production policy set. Production deployment requires testing every table, operation and role, including cross-factory access.
+
+# 6\. Bill and document management
+
+Your system needs to store two types of bills:
+
+1. Customer-provided bills.
+2. Factory-generated or supplier-provided bills.
+
+Use a private Supabase Storage bucket named:
+
+`wayamba-documents`
+
+Recommended file path:
+
+text
+
+```text
+factory-id/
+    transaction-id/
+        customer-bill.pdf
+        delivery-note.pdf
+        supplier-invoice.jpg
+        weighbridge-ticket.jpg
+```
+
+Document fields:
+
+| Field | Purpose |
+| --- | --- |
+| Document ID | Unique identifier |
+| Transaction ID | Linked stock transaction |
+| File name | Original file name |
+| File path | Storage location |
+| Document type | Customer bill / supplier bill |
+| Uploaded by | Employee |
+| Uploaded at | Upload timestamp |
+
+Use short-lived signed URLs for authorized viewing and downloads. Apply Storage policies to both upload and read operations, checking the factory membership through the transaction ID. Restrict file size, MIME types and permitted upload paths.
+
+The original document should be preserved even if a transaction is later cancelled.
+
+# 7\. Flutter application – screen-by-screen blueprint
+
+Now let's design the actual application.
+
+## 7.1 Login screen
+
+# WAYAMBA PLASTIC
+
+Factory Management System
+
+Email / UsernameEnter your email
+
+PasswordEnter your password
+
+LOGIN
+
+Secure employee access
+
+Static interface concept, not a functional login screen.
+
+After login, the system loads the employee's assigned factory and permissions.
+
+## 7.2 Main dashboard
+
+WAYAMBA PLASTIC
+
+Management
+
+Factory 01 · Dashboard preview
+
+# 4,500 kg
+
+Today's production
+
+# 2,000 kg
+
+Today's dispatch
+
+# 18,500 kg
+
+Finished stock
+
+# 25,000 kg
+
+Raw material stock
+
+Production overview
+
+Chart
+
+Expand chart
+
+|  | Production |
+| --- | --- |
+| Day | 2.5K kg |
+| Night | 2K kg |
+
+Pending approvals
+
+Production records
+
+4
+
+Dispatch records
+
+2
+
+Material receipts
+
+3
+
+Illustrative dashboard figures.
+
+## 7.3 Application screen list
+
+| Screen | Main functions |
+| --- | --- |
+| 01\. Login | Employee authentication |
+| 02\. Dashboard | Factory performance |
+| 03\. Factory selector | Switch authorized factory |
+| 04\. Production list | Search production records |
+| 05\. Add production | New daily production |
+| 06\. Operator selection | Assign production operators |
+| 07\. Machine selection | Choose machine and shift |
+| 08\. Finished stock | View product balances |
+| 09\. Raw material stock | View material balances |
+| 10\. Material receipt | Supplier or factory receipt |
+| 11\. Material consumption | Issue materials to production |
+| 12\. Dispatch list | Customer dispatch history |
+| 13\. Add dispatch | Customer and product details |
+| 14\. Document upload | Attach bills and supporting files |
+| 15\. Transfer list | Factory transfer records |
+| 16\. Create transfer | Send material to another factory |
+| 17\. Receive transfer | Confirm received quantities |
+| 18\. Approval centre | Manager approval queue |
+| 19\. Reports | Daily, weekly and monthly |
+| 20\. Customer list | Customer management |
+| 21\. Supplier list | Supplier management |
+| 22\. Machine management | Machine records |
+| 23\. User management | Create and manage employees |
+| 24\. Role management | Permissions |
+| 25\. Audit history | All changes and actions |
+| 26\. Settings | Business configuration |
+
+## 7.4 Mobile navigation
+
+For mobile devices, use five bottom-navigation tabs:
+
+Home
+
+Production
+
+Stock
+
+Dispatch
+
+More
+
+Illustrative mobile navigation. Available tabs depend on user permissions.
+
+For laptop, use a left-side navigation menu with a wider dashboard and data tables.
+
+# 8\. Detailed workflows
+
+## Workflow A – Production
+
+mermaid
+
+```mermaid
+
+flowchart TD
+ A[Select Factory] --> B[Select Date and Shift]
+ B --> C[Select Machine]
+ C --> D[Select Operator]
+ D --> E[Enter Product and Quantity]
+ E --> F[Enter Selling Price]
+ F --> G[Enter Material Consumption]
+ G --> H[Submit Production]
+ H --> I[Manager Review]
+ I --> J{Approved?}
+ J -->|Yes| K[Post Stock Movements]
+ K --> L[Update Finished Stock]
+ K --> M[Deduct Raw Material Stock]
+ J -->|No| N[Return for Correction]
+```
+
+Production value:
+
+$$
+\text{Production Value}=\text{Quantity}\times\text{Selling Price}
+$$
+
+Selling prices should be copied into the production line when submitted. If the selling price changes next week, previous production records must retain their original price.
+
+## Workflow B – Customer dispatch
+
+mermaid
+
+```mermaid
+
+flowchart TD
+ A[Select Factory] --> B[Select Customer]
+ B --> C[Enter Dispatch Date]
+ C --> D[Select Product]
+ D --> E[Enter Quantity and Price]
+ E --> F[Attach Customer Bill]
+ F --> G[Submit Dispatch]
+ G --> H[Manager Approval]
+ H --> I{Stock Available?}
+ I -->|Yes| J[Approve and Deduct Stock]
+ I -->|No| K[Reject or Request Correction]
+```
+
+## Workflow C – Inter-factory transfers
+
+This needs special attention.
+
+mermaid
+
+```mermaid
+
+flowchart TD
+ A[Factory A Creates Transfer] --> B[Enter Materials and Quantities]
+ B --> C[Attach Transfer Bill]
+ C --> D[Manager Approval]
+ D --> E[Dispatch Material]
+ E --> F[Move Quantity to In Transit]
+ F --> G[Factory B Confirms Receipt]
+ G --> H[Manager Reviews Receipt]
+ H --> I{Approved?}
+ I -->|Yes| J[Add Actual Quantity to Factory B]
+ I -->|No| K[Investigate Difference]
+```
+
+A material transfer is not a customer sale.
+
+For example:
+
+- Factory A sends 3,000 kg.
+- Factory B receives 2,950 kg.
+- Difference: 50 kg.
+
+The system must record the 50 kg discrepancy for investigation. It must not silently add 3,000 kg to Factory B.
+
+# 9\. Financial and valuation rules
+
+I recommend keeping three separate valuation concepts.
+
+| Valuation | Formula | Purpose |
+| --- | --- | --- |
+| Production value | Quantity × selling price | Production performance |
+| Inventory value | Quantity × weighted average cost | Stock valuation |
+| Dispatch value | Quantity × dispatch price | Sales/dispatch reporting |
+
+Example:
+
+| Description | Value |
+| --- | --- |
+| Production quantity | 1,500 kg |
+| Selling price | Rs. 310 |
+| Production value | Rs. 465,000 |
+| Manufacturing cost | Rs. 270/kg |
+| Production cost | Rs. 405,000 |
+| Gross potential margin | Rs. 60,000 |
+
+The Rs. 60,000 is a potential margin estimate, not actual net profit. It excludes other relevant expenses.
+
+This separation will make your monthly management reports much more useful.
+
+# 10\. Reports to develop
+
+I would make these reports available in Excel and PDF.
+
+| Report | Frequency |
+| --- | --- |
+| Daily production report | Daily |
+| Day/night shift report | Daily |
+| Operator performance | Weekly/monthly |
+| Machine production report | Daily/monthly |
+| Finished stock report | Daily |
+| Raw material stock report | Daily |
+| Customer dispatch report | Daily/monthly |
+| Inter-factory transfer report | Daily |
+| Material consumption report | Daily |
+| Wastage report | Weekly/monthly |
+| Factory comparison report | Monthly |
+| Stock valuation report | Monthly |
+| Audit report | On demand |
+
+All reports should support:
+
+- Date range selection.
+- Factory selection.
+- Product selection.
+- Customer selection.
+- Export to Excel.
+- Export to PDF.
+
+# 11\. Development roadmap
+
+## WAYAMBA PLASTIC development plan
+
+Suggested 10–14 week development target for a small experienced team
+
+01
+
+Requirements & Database
+
+Week 1–2Finalize schema, user roles, factory master and security.
+
+02
+
+Authentication & Dashboard
+
+Week 3–4Login, permissions, responsive UI and dashboard.
+
+03
+
+Production & Inventory
+
+Week 5–7Production entry, material consumption and stock engine.
+
+04
+
+Dispatch & Transfers
+
+Week 8–9Customer dispatch, supplier receipts and factory transfers.
+
+05
+
+Approvals & Reports
+
+Week 10–11Approval workflow, PDF bills, reports and audit history.
+
+06
+
+Testing & Deployment
+
+Week 12–14Mobile testing, web deployment, backup and staff training.
+
+### Development testing checklist
+
+Before launching, test:
+
+- Two factories using the system simultaneously.
+- Multiple production entries for the same shift.
+- Duplicate submissions from mobile.
+- Dispatch exceeding available stock.
+- Rejected transactions.
+- Edited transactions.
+- Partially received factory transfers.
+- Manager approving from another device.
+- Unauthorized users attempting cross-factory access.
+- Bill upload and download.
+- Backup restoration.
+- Internet disconnection during submission.
+
+# 12\. Estimated infrastructure budget
+
+These are planning allowances, not current vendor quotations.
+
+| Item | Initial planning allowance |
+| --- | --- |
+| Supabase hosting/database | USD 0–25/month |
+| Flutter web hosting | USD 0–15/month |
+| Domain | USD 10–25/year |
+| Error monitoring | USD 0–20/month |
+| Additional storage/backup | Depends on usage |
+| Apple Developer account | Separate annual fee |
+| Google Play registration | Separate registration fee |
+
+Development labour is separate. A fully custom application may cost considerably more than its hosting expenses.
+
+You can initially launch the web application and Android/iPhone internal testing builds before investing in public app-store distribution.
+
+# 13\. What I recommend building first
+
+I would build the first operational version around these five functions:
+
+First release – MVP# WAYAMBA PLASTIC V1.0
+
+1. Login and multi-factory user permissions.
+2. Day/night production with operator and machine names.
+3. Automatic finished goods stock calculation.
+4. Raw material receipts, consumption and factory transfers.
+5. Customer dispatch, bill uploads and manager approval.
+
+V1.1 additions
+
+Customer ledgers, advanced analytics, machine downtime, wastage and offline synchronization.
+
+# 14\. Next development deliverables
+
+The blueprint is now defined. The next step is to turn it into actual development files.
+
+I recommend producing these in this order:
+
+| Deliverable | What it contains |
+| --- | --- |
+| 1\. Database migration | Complete PostgreSQL SQL |
+| 2\. Supabase security | RLS, grants and approval functions |
+| 3\. Flutter project structure | Folders, models, repositories and screens |
+| 4\. UI design | Laptop, Android and iPhone screens |
+| 5\. Business logic | Stock and valuation calculations |
+| 6\. Test data | Three factories, machines, products and sample transactions |
+
+My recommendation: Start with Deliverable 1 and 2 together. Do not build the Flutter application on an unfinished database.
+
+One final technical decision is important: the first version should use online centralized transactions, with offline entry and synchronization added after the stock and approval engine has passed testing. This will reduce the risk of incorrect stock balances.
+
+WAYAMBA PLASTIC should ultimately have one reliable source of truth for every kilogram of raw material produced, received, consumed, transferred or dispatched.
+
+If you want, I can:
+
+- Describe workflows for production and dispatch processes
+- List key database triggers and functions for stock updates
+- Outline user roles and access control rules

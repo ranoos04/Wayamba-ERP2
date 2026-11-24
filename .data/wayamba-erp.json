@@ -1,0 +1,1601 @@
+{
+  "factories": [
+    {
+      "id": "fac-01",
+      "factoryCode": "F01",
+      "factoryName": "Factory 01 – Main Factory",
+      "address": "Plot 14, Kurunegala Industrial Estate, North Western Province",
+      "isActive": true,
+      "createdAt": "2026-09-25T10:15:00.000Z"
+    },
+    {
+      "id": "fac-02",
+      "factoryCode": "F02",
+      "factoryName": "Factory 02 – Raw Material Factory",
+      "address": "Pannala Polymer Processing Zone, Wayamba",
+      "isActive": true,
+      "createdAt": "2026-09-25T10:15:00.000Z"
+    },
+    {
+      "id": "fac-03",
+      "factoryCode": "F03",
+      "factoryName": "Factory 03 – Production Factory",
+      "address": "Kuliyapitiya Molding Complex, Wayamba",
+      "isActive": true,
+      "createdAt": "2026-10-10T10:15:00.000Z"
+    }
+  ],
+  "profiles": [
+    {
+      "id": "u-admin",
+      "fullName": "Waseem (Super Admin)",
+      "phone": "+94 77 412 8801",
+      "email": "waseemmw6521334@gmail.com",
+      "passwordHash": "wayamba123",
+      "isActive": true,
+      "createdAt": "2026-09-25T10:15:00.000Z"
+    },
+    {
+      "id": "u-mgr-1",
+      "fullName": "Nimali Jayawardena",
+      "phone": "+94 77 318 4410",
+      "email": "nimali@wayambaplastic.lk",
+      "passwordHash": "wayamba123",
+      "isActive": true,
+      "createdAt": "2026-09-25T10:15:00.000Z"
+    },
+    {
+      "id": "u-mgr-2",
+      "fullName": "Ruwan Senanayake",
+      "phone": "+94 71 904 2219",
+      "email": "ruwan@wayambaplastic.lk",
+      "passwordHash": "wayamba123",
+      "isActive": true,
+      "createdAt": "2026-09-25T10:15:00.000Z"
+    },
+    {
+      "id": "u-sup-1",
+      "fullName": "Tharindu Bandara",
+      "phone": "+94 76 882 1190",
+      "email": "tharindu@wayambaplastic.lk",
+      "passwordHash": "wayamba123",
+      "isActive": true,
+      "createdAt": "2026-09-30T10:15:00.000Z"
+    },
+    {
+      "id": "u-str-1",
+      "fullName": "Dilshan Kumara",
+      "phone": "+94 77 512 9088",
+      "email": "dilshan@wayambaplastic.lk",
+      "passwordHash": "wayamba123",
+      "isActive": true,
+      "createdAt": "2026-09-30T10:15:00.000Z"
+    },
+    {
+      "id": "u-dsp-1",
+      "fullName": "Sanduni Wijesinghe",
+      "phone": "+94 71 224 7712",
+      "email": "sanduni@wayambaplastic.lk",
+      "passwordHash": "wayamba123",
+      "isActive": true,
+      "createdAt": "2026-10-05T10:15:00.000Z"
+    },
+    {
+      "id": "u-acc-1",
+      "fullName": "Chaminda Silva",
+      "phone": "+94 77 640 3315",
+      "email": "chaminda@wayambaplastic.lk",
+      "passwordHash": "wayamba123",
+      "isActive": true,
+      "createdAt": "2026-10-05T10:15:00.000Z"
+    },
+    {
+      "id": "u-op-1",
+      "fullName": "Mahesh Fernando",
+      "phone": "+94 75 411 2001",
+      "email": "mahesh.op@wayambaplastic.lk",
+      "passwordHash": "wayamba123",
+      "isActive": true,
+      "createdAt": "2026-10-10T10:15:00.000Z"
+    },
+    {
+      "id": "u-op-2",
+      "fullName": "Priyantha Wickrama",
+      "phone": "+94 75 411 2002",
+      "email": "priyantha.op@wayambaplastic.lk",
+      "passwordHash": "wayamba123",
+      "isActive": true,
+      "createdAt": "2026-10-10T10:15:00.000Z"
+    },
+    {
+      "id": "u-op-3",
+      "fullName": "Ajith Kumara",
+      "phone": "+94 75 411 2003",
+      "email": "ajith.op@wayambaplastic.lk",
+      "passwordHash": "wayamba123",
+      "isActive": true,
+      "createdAt": "2026-10-10T10:15:00.000Z"
+    }
+  ],
+  "memberships": [
+    {
+      "id": "mem-1",
+      "userId": "u-admin",
+      "factoryId": "fac-01",
+      "role": "super_admin",
+      "isActive": true,
+      "createdAt": "2026-09-25T10:15:00.000Z"
+    },
+    {
+      "id": "mem-2",
+      "userId": "u-mgr-1",
+      "factoryId": "fac-01",
+      "role": "factory_manager",
+      "isActive": true,
+      "createdAt": "2026-09-25T10:15:00.000Z"
+    },
+    {
+      "id": "mem-3",
+      "userId": "u-mgr-2",
+      "factoryId": "fac-02",
+      "role": "factory_manager",
+      "isActive": true,
+      "createdAt": "2026-09-25T10:15:00.000Z"
+    },
+    {
+      "id": "mem-4",
+      "userId": "u-mgr-2",
+      "factoryId": "fac-03",
+      "role": "factory_manager",
+      "isActive": true,
+      "createdAt": "2026-10-10T10:15:00.000Z"
+    },
+    {
+      "id": "mem-5",
+      "userId": "u-sup-1",
+      "factoryId": "fac-01",
+      "role": "production_supervisor",
+      "isActive": true,
+      "createdAt": "2026-09-30T10:15:00.000Z"
+    },
+    {
+      "id": "mem-6",
+      "userId": "u-sup-1",
+      "factoryId": "fac-03",
+      "role": "production_supervisor",
+      "isActive": true,
+      "createdAt": "2026-10-10T10:15:00.000Z"
+    },
+    {
+      "id": "mem-7",
+      "userId": "u-str-1",
+      "factoryId": "fac-01",
+      "role": "storekeeper",
+      "isActive": true,
+      "createdAt": "2026-09-30T10:15:00.000Z"
+    },
+    {
+      "id": "mem-8",
+      "userId": "u-str-1",
+      "factoryId": "fac-02",
+      "role": "storekeeper",
+      "isActive": true,
+      "createdAt": "2026-09-30T10:15:00.000Z"
+    },
+    {
+      "id": "mem-9",
+      "userId": "u-dsp-1",
+      "factoryId": "fac-01",
+      "role": "dispatch_officer",
+      "isActive": true,
+      "createdAt": "2026-10-05T10:15:00.000Z"
+    },
+    {
+      "id": "mem-10",
+      "userId": "u-dsp-1",
+      "factoryId": "fac-03",
+      "role": "dispatch_officer",
+      "isActive": true,
+      "createdAt": "2026-10-10T10:15:00.000Z"
+    },
+    {
+      "id": "mem-11",
+      "userId": "u-acc-1",
+      "factoryId": "fac-01",
+      "role": "accounts_user",
+      "isActive": true,
+      "createdAt": "2026-10-05T10:15:00.000Z"
+    },
+    {
+      "id": "mem-12",
+      "userId": "u-acc-1",
+      "factoryId": "fac-02",
+      "role": "accounts_user",
+      "isActive": true,
+      "createdAt": "2026-10-05T10:15:00.000Z"
+    },
+    {
+      "id": "mem-13",
+      "userId": "u-acc-1",
+      "factoryId": "fac-03",
+      "role": "accounts_user",
+      "isActive": true,
+      "createdAt": "2026-10-10T10:15:00.000Z"
+    },
+    {
+      "id": "mem-14",
+      "userId": "u-op-1",
+      "factoryId": "fac-01",
+      "role": "operator",
+      "isActive": true,
+      "createdAt": "2026-10-10T10:15:00.000Z"
+    },
+    {
+      "id": "mem-15",
+      "userId": "u-op-2",
+      "factoryId": "fac-01",
+      "role": "operator",
+      "isActive": true,
+      "createdAt": "2026-10-10T10:15:00.000Z"
+    },
+    {
+      "id": "mem-16",
+      "userId": "u-op-3",
+      "factoryId": "fac-03",
+      "role": "operator",
+      "isActive": true,
+      "createdAt": "2026-10-10T10:15:00.000Z"
+    }
+  ],
+  "products": [
+    {
+      "id": "prod-pellet-blk",
+      "productCode": "PP-PEL-BLK",
+      "productName": "PP Black Pellets",
+      "productCategory": "PP Pellets",
+      "unitCode": "KG",
+      "isActive": true,
+      "createdAt": "2026-09-25T10:15:00.000Z"
+    },
+    {
+      "id": "prod-pellet-nat",
+      "productCode": "PP-PEL-NAT",
+      "productName": "PP Natural Pellets",
+      "productCategory": "PP Pellets",
+      "unitCode": "KG",
+      "isActive": true,
+      "createdAt": "2026-09-25T10:15:00.000Z"
+    },
+    {
+      "id": "prod-pallet-hd",
+      "productCode": "PP-PAL-1210",
+      "productName": "PP Heavy-Duty Pallet (1200x1000)",
+      "productCategory": "PP Pallets",
+      "unitCode": "PCS",
+      "isActive": true,
+      "createdAt": "2026-09-25T10:15:00.000Z"
+    },
+    {
+      "id": "prod-pallet-exp",
+      "productCode": "PP-PAL-1111",
+      "productName": "PP Export Nestable Pallet (1100x1100)",
+      "productCategory": "PP Pallets",
+      "unitCode": "PCS",
+      "isActive": true,
+      "createdAt": "2026-09-25T10:15:00.000Z"
+    }
+  ],
+  "rawMaterials": [
+    {
+      "id": "mat-virgin",
+      "materialCode": "RM-PP-VRG",
+      "materialName": "PP Virgin Granules (Homopolymer)",
+      "unitCode": "KG",
+      "weightedAvgCost": 270,
+      "reorderLevel": 5000,
+      "isActive": true
+    },
+    {
+      "id": "mat-regrind",
+      "materialCode": "RM-PP-RGR",
+      "materialName": "PP Washed Recycled Regrind",
+      "unitCode": "KG",
+      "weightedAvgCost": 185,
+      "reorderLevel": 4000,
+      "isActive": true
+    },
+    {
+      "id": "mat-mb-blk",
+      "materialCode": "RM-MB-BLK",
+      "materialName": "Carbon Black Masterbatch MB-01",
+      "unitCode": "KG",
+      "weightedAvgCost": 620,
+      "reorderLevel": 500,
+      "isActive": true
+    },
+    {
+      "id": "mat-uv",
+      "materialCode": "RM-ADD-UV",
+      "materialName": "UV Stabilizer Additive",
+      "unitCode": "KG",
+      "weightedAvgCost": 1450,
+      "reorderLevel": 200,
+      "isActive": true
+    }
+  ],
+  "customers": [
+    {
+      "id": "cust-01",
+      "customerCode": "CUST-001",
+      "customerName": "Ceylon Logistics & Warehousing PLC",
+      "phone": "+94 11 268 9001",
+      "address": "Kelaniya Logistics Park, Colombo 14",
+      "isActive": true
+    },
+    {
+      "id": "cust-02",
+      "customerCode": "CUST-002",
+      "customerName": "Lanka Cold Chain Exports Ltd",
+      "phone": "+94 11 284 4412",
+      "address": "Biyagama Export Processing Zone",
+      "isActive": true
+    },
+    {
+      "id": "cust-03",
+      "customerCode": "CUST-003",
+      "customerName": "Wayamba Agro Packaging Pvt Ltd",
+      "phone": "+94 37 222 8190",
+      "address": "Dambulla Road, Kurunegala",
+      "isActive": true
+    },
+    {
+      "id": "cust-04",
+      "customerCode": "CUST-004",
+      "customerName": "Metro Polymer Converters",
+      "phone": "+94 11 291 3340",
+      "address": "Ekala Industrial Estate, Ja-Ela",
+      "isActive": true
+    }
+  ],
+  "suppliers": [
+    {
+      "id": "sup-01",
+      "supplierCode": "SUP-001",
+      "supplierName": "Sinopec Polymer Lanka Distributors",
+      "phone": "+94 11 244 7788",
+      "address": "Port Access Road, Colombo 15",
+      "isActive": true
+    },
+    {
+      "id": "sup-02",
+      "supplierCode": "SUP-002",
+      "supplierName": "Gulf Petrochem Trading FZE",
+      "phone": "+971 4 332 9900",
+      "address": "Jebel Ali Free Zone / Colombo Liaison",
+      "isActive": true
+    },
+    {
+      "id": "sup-03",
+      "supplierCode": "SUP-003",
+      "supplierName": "Island Plastics Recycling Consortium",
+      "phone": "+94 37 228 5520",
+      "address": "Pannala Road, Kuliyapitiya",
+      "isActive": true
+    }
+  ],
+  "machines": [
+    {
+      "id": "mac-f1-ex1",
+      "factoryId": "fac-01",
+      "machineCode": "F1-EX-01",
+      "machineName": "Twin-Screw Pelletizer EX-01",
+      "machineType": "Extrusion Pelletizer",
+      "isActive": true
+    },
+    {
+      "id": "mac-f1-ex2",
+      "factoryId": "fac-01",
+      "machineCode": "F1-EX-02",
+      "machineName": "Single-Screw Pelletizer EX-02",
+      "machineType": "Extrusion Pelletizer",
+      "isActive": true
+    },
+    {
+      "id": "mac-f1-im1",
+      "factoryId": "fac-01",
+      "machineCode": "F1-IM-01",
+      "machineName": "Haitian 1800T Pallet Press IM-01",
+      "machineType": "Injection Molding",
+      "isActive": true
+    },
+    {
+      "id": "mac-f2-cr1",
+      "factoryId": "fac-02",
+      "machineCode": "F2-CR-01",
+      "machineName": "Heavy Crusher & Wash Line CR-01",
+      "machineType": "Washing & Crushing",
+      "isActive": true
+    },
+    {
+      "id": "mac-f2-ex1",
+      "factoryId": "fac-02",
+      "machineCode": "F2-EX-01",
+      "machineName": "Regrind Pelletizer Line EX-01",
+      "machineType": "Extrusion Pelletizer",
+      "isActive": true
+    },
+    {
+      "id": "mac-f3-im1",
+      "factoryId": "fac-03",
+      "machineCode": "F3-IM-01",
+      "machineName": "Haitian 2200T Heavy Pallet Press",
+      "machineType": "Injection Molding",
+      "isActive": true
+    },
+    {
+      "id": "mac-f3-im2",
+      "factoryId": "fac-03",
+      "machineCode": "F3-IM-02",
+      "machineName": "Battenfeld 1400T Export Pallet Press",
+      "machineType": "Injection Molding",
+      "isActive": true
+    }
+  ],
+  "shifts": [
+    {
+      "id": "shift-day",
+      "shiftName": "Day",
+      "startTime": "06:00",
+      "endTime": "18:00"
+    },
+    {
+      "id": "shift-night",
+      "shiftName": "Night",
+      "startTime": "18:00",
+      "endTime": "06:00"
+    }
+  ],
+  "priceHistory": [
+    {
+      "id": "ph-1",
+      "productId": "prod-pellet-blk",
+      "factoryId": null,
+      "sellingPrice": 310,
+      "effectiveFrom": "2026-08-26",
+      "effectiveTo": null,
+      "createdBy": "u-admin",
+      "createdAt": "2026-08-26T10:15:00.000Z"
+    },
+    {
+      "id": "ph-2",
+      "productId": "prod-pellet-nat",
+      "factoryId": null,
+      "sellingPrice": 345,
+      "effectiveFrom": "2026-08-26",
+      "effectiveTo": null,
+      "createdBy": "u-admin",
+      "createdAt": "2026-08-26T10:15:00.000Z"
+    },
+    {
+      "id": "ph-3",
+      "productId": "prod-pallet-hd",
+      "factoryId": null,
+      "sellingPrice": 4850,
+      "effectiveFrom": "2026-08-26",
+      "effectiveTo": null,
+      "createdBy": "u-admin",
+      "createdAt": "2026-08-26T10:15:00.000Z"
+    },
+    {
+      "id": "ph-4",
+      "productId": "prod-pallet-exp",
+      "factoryId": null,
+      "sellingPrice": 3920,
+      "effectiveFrom": "2026-08-26",
+      "effectiveTo": null,
+      "createdBy": "u-admin",
+      "createdAt": "2026-08-26T10:15:00.000Z"
+    }
+  ],
+  "transactions": [
+    {
+      "id": "tx-open-f1",
+      "transactionNumber": "OP-F01-001",
+      "factoryId": "fac-01",
+      "transactionType": "opening",
+      "status": "approved",
+      "transactionDate": "2026-11-10",
+      "referenceNumber": "OPENING-FY26",
+      "customerId": null,
+      "supplierId": null,
+      "createdBy": "u-str-1",
+      "submittedAt": "2026-11-10T08:15:00.000Z",
+      "approvedBy": "u-mgr-1",
+      "approvedAt": "2026-11-10T09:15:00.000Z",
+      "remarks": "Opening balance verified by physical stock count",
+      "createdAt": "2026-11-10T08:15:00.000Z"
+    },
+    {
+      "id": "tx-open-f2",
+      "transactionNumber": "OP-F02-001",
+      "factoryId": "fac-02",
+      "transactionType": "opening",
+      "status": "approved",
+      "transactionDate": "2026-11-10",
+      "referenceNumber": "OPENING-F2-FY26",
+      "customerId": null,
+      "supplierId": null,
+      "createdBy": "u-str-1",
+      "submittedAt": "2026-11-10T08:15:00.000Z",
+      "approvedBy": "u-mgr-2",
+      "approvedAt": "2026-11-10T09:15:00.000Z",
+      "remarks": "Factory 02 raw material opening balance",
+      "createdAt": "2026-11-10T08:15:00.000Z"
+    },
+    {
+      "id": "tx-open-f3",
+      "transactionNumber": "OP-F03-001",
+      "factoryId": "fac-03",
+      "transactionType": "opening",
+      "status": "approved",
+      "transactionDate": "2026-11-10",
+      "referenceNumber": "OPENING-F3-FY26",
+      "customerId": null,
+      "supplierId": null,
+      "createdBy": "u-sup-1",
+      "submittedAt": "2026-11-10T08:15:00.000Z",
+      "approvedBy": "u-mgr-2",
+      "approvedAt": "2026-11-10T09:15:00.000Z",
+      "remarks": "Factory 03 molding plant opening balance",
+      "createdAt": "2026-11-10T08:15:00.000Z"
+    },
+    {
+      "id": "tx-prod-f1-1",
+      "transactionNumber": "PR-F01-104",
+      "factoryId": "fac-01",
+      "transactionType": "production",
+      "status": "approved",
+      "transactionDate": "2026-11-24",
+      "referenceNumber": "SHIFT-DAY-EX01",
+      "customerId": null,
+      "supplierId": null,
+      "createdBy": "u-sup-1",
+      "submittedAt": "2026-11-24T12:15:00.000Z",
+      "approvedBy": "u-mgr-1",
+      "approvedAt": "2026-11-24T13:15:00.000Z",
+      "remarks": "Morning batch PP Black Pellets run",
+      "createdAt": "2026-11-24T11:15:00.000Z"
+    },
+    {
+      "id": "tx-prod-f1-2",
+      "transactionNumber": "PR-F01-105",
+      "factoryId": "fac-01",
+      "transactionType": "production",
+      "status": "approved",
+      "transactionDate": "2026-11-24",
+      "referenceNumber": "SHIFT-NIGHT-EX02",
+      "customerId": null,
+      "supplierId": null,
+      "createdBy": "u-sup-1",
+      "submittedAt": "2026-11-24T14:15:00.000Z",
+      "approvedBy": "u-mgr-1",
+      "approvedAt": "2026-11-24T15:15:00.000Z",
+      "remarks": "Night batch PP Black Pellets + Natural Pellets",
+      "createdAt": "2026-11-24T14:15:00.000Z"
+    },
+    {
+      "id": "tx-disp-f1-1",
+      "transactionNumber": "DS-F01-208",
+      "factoryId": "fac-01",
+      "transactionType": "dispatch",
+      "status": "approved",
+      "transactionDate": "2026-11-24",
+      "referenceNumber": "INV-2026-0881",
+      "customerId": "cust-04",
+      "supplierId": null,
+      "createdBy": "u-dsp-1",
+      "submittedAt": "2026-11-24T14:15:00.000Z",
+      "approvedBy": "u-mgr-1",
+      "approvedAt": "2026-11-24T15:15:00.000Z",
+      "remarks": "Dispatched 2,000 kg PP Black Pellets to Metro Polymer Converters",
+      "createdAt": "2026-11-24T14:15:00.000Z"
+    },
+    {
+      "id": "tx-prod-f1-pend1",
+      "transactionNumber": "PR-F01-106",
+      "factoryId": "fac-01",
+      "transactionType": "production",
+      "status": "submitted",
+      "transactionDate": "2026-11-24",
+      "referenceNumber": "SHIFT-DAY-IM01",
+      "customerId": null,
+      "supplierId": null,
+      "createdBy": "u-sup-1",
+      "submittedAt": "2026-11-24T16:15:00.000Z",
+      "approvedBy": null,
+      "approvedAt": null,
+      "remarks": "120 PCS Heavy-Duty PP Pallets molded on IM-01",
+      "createdAt": "2026-11-24T16:15:00.000Z"
+    },
+    {
+      "id": "tx-disp-f1-pend1",
+      "transactionNumber": "DS-F01-209",
+      "factoryId": "fac-01",
+      "transactionType": "dispatch",
+      "status": "submitted",
+      "transactionDate": "2026-11-24",
+      "referenceNumber": "INV-2026-0884",
+      "customerId": "cust-01",
+      "supplierId": null,
+      "createdBy": "u-dsp-1",
+      "submittedAt": "2026-11-24T17:15:00.000Z",
+      "approvedBy": null,
+      "approvedAt": null,
+      "remarks": "Ceylon Logistics pallet order — customer PO attached",
+      "createdAt": "2026-11-24T17:15:00.000Z"
+    },
+    {
+      "id": "tx-rec-f1-pend1",
+      "transactionNumber": "GRN-F01-312",
+      "factoryId": "fac-01",
+      "transactionType": "raw_receipt",
+      "status": "submitted",
+      "transactionDate": "2026-11-24",
+      "referenceNumber": "SUP-INV-7741",
+      "customerId": null,
+      "supplierId": "sup-01",
+      "createdBy": "u-str-1",
+      "submittedAt": "2026-11-24T17:15:00.000Z",
+      "approvedBy": null,
+      "approvedAt": null,
+      "remarks": "Sinopec PP Virgin Granules container delivery",
+      "createdAt": "2026-11-24T17:15:00.000Z"
+    },
+    {
+      "id": "tx-tout-f2-01",
+      "transactionNumber": "TO-F02-019",
+      "factoryId": "fac-02",
+      "transactionType": "transfer_out",
+      "status": "approved",
+      "transactionDate": "2026-11-23",
+      "referenceNumber": "TR-F02-F01-019",
+      "customerId": null,
+      "supplierId": null,
+      "createdBy": "u-str-1",
+      "submittedAt": "2026-11-23T14:15:00.000Z",
+      "approvedBy": "u-mgr-2",
+      "approvedAt": "2026-11-23T15:15:00.000Z",
+      "remarks": "Transferring 3,000 kg washed PP regrind from Pannala to Main Factory",
+      "createdAt": "2026-11-23T14:15:00.000Z"
+    },
+    {
+      "id": "tx-prod-f3-1",
+      "transactionNumber": "PR-F03-041",
+      "factoryId": "fac-03",
+      "transactionType": "production",
+      "status": "approved",
+      "transactionDate": "2026-11-22",
+      "referenceNumber": "SHIFT-DAY-F3IM1",
+      "customerId": null,
+      "supplierId": null,
+      "createdBy": "u-sup-1",
+      "submittedAt": "2026-11-22T16:15:00.000Z",
+      "approvedBy": "u-mgr-2",
+      "approvedAt": "2026-11-22T17:15:00.000Z",
+      "remarks": "Export pallet batch completed at Kuliyapitiya",
+      "createdAt": "2026-11-22T16:15:00.000Z"
+    }
+  ],
+  "transactionLines": [
+    {
+      "id": "txl-1",
+      "transactionId": "tx-open-f1",
+      "productId": "prod-pellet-blk",
+      "materialId": null,
+      "direction": "in",
+      "quantity": 11200,
+      "unitPrice": 310,
+      "totalValue": 3472000,
+      "remarks": "Opening PP Black Pellets"
+    },
+    {
+      "id": "txl-2",
+      "transactionId": "tx-open-f1",
+      "productId": "prod-pellet-nat",
+      "materialId": null,
+      "direction": "in",
+      "quantity": 4800,
+      "unitPrice": 345,
+      "totalValue": 1656000,
+      "remarks": "Opening PP Natural Pellets"
+    },
+    {
+      "id": "txl-3",
+      "transactionId": "tx-open-f1",
+      "productId": "prod-pallet-hd",
+      "materialId": null,
+      "direction": "in",
+      "quantity": 320,
+      "unitPrice": 4850,
+      "totalValue": 1552000,
+      "remarks": "Opening PP Heavy-Duty Pallets"
+    },
+    {
+      "id": "txl-4",
+      "transactionId": "tx-open-f1",
+      "productId": null,
+      "materialId": "mat-virgin",
+      "direction": "in",
+      "quantity": 18500,
+      "unitPrice": 270,
+      "totalValue": 4995000,
+      "remarks": "Opening PP Virgin Granules"
+    },
+    {
+      "id": "txl-5",
+      "transactionId": "tx-open-f1",
+      "productId": null,
+      "materialId": "mat-regrind",
+      "direction": "in",
+      "quantity": 9600,
+      "unitPrice": 185,
+      "totalValue": 1776000,
+      "remarks": "Opening PP Regrind"
+    },
+    {
+      "id": "txl-6",
+      "transactionId": "tx-open-f1",
+      "productId": null,
+      "materialId": "mat-mb-blk",
+      "direction": "in",
+      "quantity": 1450,
+      "unitPrice": 620,
+      "totalValue": 899000,
+      "remarks": "Opening Carbon Black Masterbatch"
+    },
+    {
+      "id": "txl-7",
+      "transactionId": "tx-open-f2",
+      "productId": null,
+      "materialId": "mat-virgin",
+      "direction": "in",
+      "quantity": 22000,
+      "unitPrice": 270,
+      "totalValue": 5940000,
+      "remarks": "Factory 02 Virgin stock"
+    },
+    {
+      "id": "txl-8",
+      "transactionId": "tx-open-f2",
+      "productId": null,
+      "materialId": "mat-regrind",
+      "direction": "in",
+      "quantity": 18400,
+      "unitPrice": 185,
+      "totalValue": 3404000,
+      "remarks": "Factory 02 Regrind stock"
+    },
+    {
+      "id": "txl-9",
+      "transactionId": "tx-open-f3",
+      "productId": "prod-pallet-exp",
+      "materialId": null,
+      "direction": "in",
+      "quantity": 410,
+      "unitPrice": 3920,
+      "totalValue": 1607200,
+      "remarks": "Factory 03 Export Pallets opening"
+    },
+    {
+      "id": "txl-10",
+      "transactionId": "tx-open-f3",
+      "productId": null,
+      "materialId": "mat-virgin",
+      "direction": "in",
+      "quantity": 14000,
+      "unitPrice": 270,
+      "totalValue": 3780000,
+      "remarks": "Factory 03 Virgin Granules opening"
+    },
+    {
+      "id": "txl-11",
+      "transactionId": "tx-prod-f1-1",
+      "productId": "prod-pellet-blk",
+      "materialId": null,
+      "direction": "in",
+      "quantity": 2500,
+      "unitPrice": 310,
+      "totalValue": 775000,
+      "remarks": "Day shift extrusion output"
+    },
+    {
+      "id": "txl-12",
+      "transactionId": "tx-prod-f1-1",
+      "productId": null,
+      "materialId": "mat-virgin",
+      "direction": "out",
+      "quantity": 2450,
+      "unitPrice": 270,
+      "totalValue": 661500,
+      "remarks": "Raw material consumed"
+    },
+    {
+      "id": "txl-13",
+      "transactionId": "tx-prod-f1-1",
+      "productId": null,
+      "materialId": "mat-mb-blk",
+      "direction": "out",
+      "quantity": 100,
+      "unitPrice": 620,
+      "totalValue": 62000,
+      "remarks": "Masterbatch consumed"
+    },
+    {
+      "id": "txl-14",
+      "transactionId": "tx-prod-f1-2",
+      "productId": "prod-pellet-blk",
+      "materialId": null,
+      "direction": "in",
+      "quantity": 1500,
+      "unitPrice": 310,
+      "totalValue": 465000,
+      "remarks": "Night shift PP Black Pellets"
+    },
+    {
+      "id": "txl-15",
+      "transactionId": "tx-prod-f1-2",
+      "productId": "prod-pellet-nat",
+      "materialId": null,
+      "direction": "in",
+      "quantity": 500,
+      "unitPrice": 345,
+      "totalValue": 172500,
+      "remarks": "Night shift PP Natural Pellets"
+    },
+    {
+      "id": "txl-16",
+      "transactionId": "tx-prod-f1-2",
+      "productId": null,
+      "materialId": "mat-regrind",
+      "direction": "out",
+      "quantity": 2000,
+      "unitPrice": 185,
+      "totalValue": 370000,
+      "remarks": "Regrind consumed"
+    },
+    {
+      "id": "txl-17",
+      "transactionId": "tx-disp-f1-1",
+      "productId": "prod-pellet-blk",
+      "materialId": null,
+      "direction": "out",
+      "quantity": 2000,
+      "unitPrice": 310,
+      "totalValue": 620000,
+      "remarks": "Customer dispatch Metro Polymer"
+    },
+    {
+      "id": "txl-18",
+      "transactionId": "tx-prod-f1-pend1",
+      "productId": "prod-pallet-hd",
+      "materialId": null,
+      "direction": "in",
+      "quantity": 120,
+      "unitPrice": 4850,
+      "totalValue": 582000,
+      "remarks": "Pending pallet molding output"
+    },
+    {
+      "id": "txl-19",
+      "transactionId": "tx-prod-f1-pend1",
+      "productId": null,
+      "materialId": "mat-virgin",
+      "direction": "out",
+      "quantity": 1800,
+      "unitPrice": 270,
+      "totalValue": 486000,
+      "remarks": "Virgin granules for molding"
+    },
+    {
+      "id": "txl-20",
+      "transactionId": "tx-disp-f1-pend1",
+      "productId": "prod-pallet-hd",
+      "materialId": null,
+      "direction": "out",
+      "quantity": 80,
+      "unitPrice": 4850,
+      "totalValue": 388000,
+      "remarks": "Ceylon Logistics order"
+    },
+    {
+      "id": "txl-21",
+      "transactionId": "tx-rec-f1-pend1",
+      "productId": null,
+      "materialId": "mat-virgin",
+      "direction": "in",
+      "quantity": 5000,
+      "unitPrice": 270,
+      "totalValue": 1350000,
+      "remarks": "Sinopec container lot #991"
+    },
+    {
+      "id": "txl-22",
+      "transactionId": "tx-tout-f2-01",
+      "productId": null,
+      "materialId": "mat-regrind",
+      "direction": "out",
+      "quantity": 3000,
+      "unitPrice": 185,
+      "totalValue": 555000,
+      "remarks": "Inter-factory transfer to Main Factory"
+    },
+    {
+      "id": "txl-23",
+      "transactionId": "tx-prod-f3-1",
+      "productId": "prod-pallet-exp",
+      "materialId": null,
+      "direction": "in",
+      "quantity": 95,
+      "unitPrice": 3920,
+      "totalValue": 372400,
+      "remarks": "Kuliyapitiya molding batch"
+    },
+    {
+      "id": "txl-24",
+      "transactionId": "tx-prod-f3-1",
+      "productId": null,
+      "materialId": "mat-virgin",
+      "direction": "out",
+      "quantity": 1425,
+      "unitPrice": 270,
+      "totalValue": 384750,
+      "remarks": "Consumed in F03 molding"
+    }
+  ],
+  "movements": [
+    {
+      "id": "mov-1",
+      "transactionId": "tx-open-f1",
+      "transactionLineId": "txl-1",
+      "factoryId": "fac-01",
+      "productId": "prod-pellet-blk",
+      "materialId": null,
+      "direction": "in",
+      "quantity": 11200,
+      "unitValue": 310,
+      "movementDate": "2026-11-10",
+      "createdAt": "2026-11-10T09:15:00.000Z"
+    },
+    {
+      "id": "mov-2",
+      "transactionId": "tx-open-f1",
+      "transactionLineId": "txl-2",
+      "factoryId": "fac-01",
+      "productId": "prod-pellet-nat",
+      "materialId": null,
+      "direction": "in",
+      "quantity": 4800,
+      "unitValue": 345,
+      "movementDate": "2026-11-10",
+      "createdAt": "2026-11-10T09:15:00.000Z"
+    },
+    {
+      "id": "mov-3",
+      "transactionId": "tx-open-f1",
+      "transactionLineId": "txl-3",
+      "factoryId": "fac-01",
+      "productId": "prod-pallet-hd",
+      "materialId": null,
+      "direction": "in",
+      "quantity": 320,
+      "unitValue": 4850,
+      "movementDate": "2026-11-10",
+      "createdAt": "2026-11-10T09:15:00.000Z"
+    },
+    {
+      "id": "mov-4",
+      "transactionId": "tx-open-f1",
+      "transactionLineId": "txl-4",
+      "factoryId": "fac-01",
+      "productId": null,
+      "materialId": "mat-virgin",
+      "direction": "in",
+      "quantity": 18500,
+      "unitValue": 270,
+      "movementDate": "2026-11-10",
+      "createdAt": "2026-11-10T09:15:00.000Z"
+    },
+    {
+      "id": "mov-5",
+      "transactionId": "tx-open-f1",
+      "transactionLineId": "txl-5",
+      "factoryId": "fac-01",
+      "productId": null,
+      "materialId": "mat-regrind",
+      "direction": "in",
+      "quantity": 9600,
+      "unitValue": 185,
+      "movementDate": "2026-11-10",
+      "createdAt": "2026-11-10T09:15:00.000Z"
+    },
+    {
+      "id": "mov-6",
+      "transactionId": "tx-open-f1",
+      "transactionLineId": "txl-6",
+      "factoryId": "fac-01",
+      "productId": null,
+      "materialId": "mat-mb-blk",
+      "direction": "in",
+      "quantity": 1450,
+      "unitValue": 620,
+      "movementDate": "2026-11-10",
+      "createdAt": "2026-11-10T09:15:00.000Z"
+    },
+    {
+      "id": "mov-7",
+      "transactionId": "tx-open-f2",
+      "transactionLineId": "txl-7",
+      "factoryId": "fac-02",
+      "productId": null,
+      "materialId": "mat-virgin",
+      "direction": "in",
+      "quantity": 22000,
+      "unitValue": 270,
+      "movementDate": "2026-11-10",
+      "createdAt": "2026-11-10T09:15:00.000Z"
+    },
+    {
+      "id": "mov-8",
+      "transactionId": "tx-open-f2",
+      "transactionLineId": "txl-8",
+      "factoryId": "fac-02",
+      "productId": null,
+      "materialId": "mat-regrind",
+      "direction": "in",
+      "quantity": 18400,
+      "unitValue": 185,
+      "movementDate": "2026-11-10",
+      "createdAt": "2026-11-10T09:15:00.000Z"
+    },
+    {
+      "id": "mov-9",
+      "transactionId": "tx-open-f3",
+      "transactionLineId": "txl-9",
+      "factoryId": "fac-03",
+      "productId": "prod-pallet-exp",
+      "materialId": null,
+      "direction": "in",
+      "quantity": 410,
+      "unitValue": 3920,
+      "movementDate": "2026-11-10",
+      "createdAt": "2026-11-10T09:15:00.000Z"
+    },
+    {
+      "id": "mov-10",
+      "transactionId": "tx-open-f3",
+      "transactionLineId": "txl-10",
+      "factoryId": "fac-03",
+      "productId": null,
+      "materialId": "mat-virgin",
+      "direction": "in",
+      "quantity": 14000,
+      "unitValue": 270,
+      "movementDate": "2026-11-10",
+      "createdAt": "2026-11-10T09:15:00.000Z"
+    },
+    {
+      "id": "mov-11",
+      "transactionId": "tx-prod-f1-1",
+      "transactionLineId": "txl-11",
+      "factoryId": "fac-01",
+      "productId": "prod-pellet-blk",
+      "materialId": null,
+      "direction": "in",
+      "quantity": 2500,
+      "unitValue": 310,
+      "movementDate": "2026-11-24",
+      "createdAt": "2026-11-24T13:15:00.000Z"
+    },
+    {
+      "id": "mov-12",
+      "transactionId": "tx-prod-f1-1",
+      "transactionLineId": "txl-12",
+      "factoryId": "fac-01",
+      "productId": null,
+      "materialId": "mat-virgin",
+      "direction": "out",
+      "quantity": 2450,
+      "unitValue": 270,
+      "movementDate": "2026-11-24",
+      "createdAt": "2026-11-24T13:15:00.000Z"
+    },
+    {
+      "id": "mov-13",
+      "transactionId": "tx-prod-f1-1",
+      "transactionLineId": "txl-13",
+      "factoryId": "fac-01",
+      "productId": null,
+      "materialId": "mat-mb-blk",
+      "direction": "out",
+      "quantity": 100,
+      "unitValue": 620,
+      "movementDate": "2026-11-24",
+      "createdAt": "2026-11-24T13:15:00.000Z"
+    },
+    {
+      "id": "mov-14",
+      "transactionId": "tx-prod-f1-2",
+      "transactionLineId": "txl-14",
+      "factoryId": "fac-01",
+      "productId": "prod-pellet-blk",
+      "materialId": null,
+      "direction": "in",
+      "quantity": 1500,
+      "unitValue": 310,
+      "movementDate": "2026-11-24",
+      "createdAt": "2026-11-24T15:15:00.000Z"
+    },
+    {
+      "id": "mov-15",
+      "transactionId": "tx-prod-f1-2",
+      "transactionLineId": "txl-15",
+      "factoryId": "fac-01",
+      "productId": "prod-pellet-nat",
+      "materialId": null,
+      "direction": "in",
+      "quantity": 500,
+      "unitValue": 345,
+      "movementDate": "2026-11-24",
+      "createdAt": "2026-11-24T15:15:00.000Z"
+    },
+    {
+      "id": "mov-16",
+      "transactionId": "tx-prod-f1-2",
+      "transactionLineId": "txl-16",
+      "factoryId": "fac-01",
+      "productId": null,
+      "materialId": "mat-regrind",
+      "direction": "out",
+      "quantity": 2000,
+      "unitValue": 185,
+      "movementDate": "2026-11-24",
+      "createdAt": "2026-11-24T15:15:00.000Z"
+    },
+    {
+      "id": "mov-17",
+      "transactionId": "tx-disp-f1-1",
+      "transactionLineId": "txl-17",
+      "factoryId": "fac-01",
+      "productId": "prod-pellet-blk",
+      "materialId": null,
+      "direction": "out",
+      "quantity": 2000,
+      "unitValue": 310,
+      "movementDate": "2026-11-24",
+      "createdAt": "2026-11-24T15:15:00.000Z"
+    },
+    {
+      "id": "mov-18",
+      "transactionId": "tx-tout-f2-01",
+      "transactionLineId": "txl-22",
+      "factoryId": "fac-02",
+      "productId": null,
+      "materialId": "mat-regrind",
+      "direction": "out",
+      "quantity": 3000,
+      "unitValue": 185,
+      "movementDate": "2026-11-23",
+      "createdAt": "2026-11-23T15:15:00.000Z"
+    },
+    {
+      "id": "mov-19",
+      "transactionId": "tx-prod-f3-1",
+      "transactionLineId": "txl-23",
+      "factoryId": "fac-03",
+      "productId": "prod-pallet-exp",
+      "materialId": null,
+      "direction": "in",
+      "quantity": 95,
+      "unitValue": 3920,
+      "movementDate": "2026-11-22",
+      "createdAt": "2026-11-22T17:15:00.000Z"
+    },
+    {
+      "id": "mov-20",
+      "transactionId": "tx-prod-f3-1",
+      "transactionLineId": "txl-24",
+      "factoryId": "fac-03",
+      "productId": null,
+      "materialId": "mat-virgin",
+      "direction": "out",
+      "quantity": 1425,
+      "unitValue": 270,
+      "movementDate": "2026-11-22",
+      "createdAt": "2026-11-22T17:15:00.000Z"
+    }
+  ],
+  "balances": [
+    {
+      "id": "bal-1",
+      "factoryId": "fac-01",
+      "productId": "prod-pellet-blk",
+      "materialId": null,
+      "quantityOnHand": 13200,
+      "updatedAt": "2026-11-24T15:15:00.000Z"
+    },
+    {
+      "id": "bal-2",
+      "factoryId": "fac-01",
+      "productId": "prod-pellet-nat",
+      "materialId": null,
+      "quantityOnHand": 5300,
+      "updatedAt": "2026-11-24T15:15:00.000Z"
+    },
+    {
+      "id": "bal-3",
+      "factoryId": "fac-01",
+      "productId": "prod-pallet-hd",
+      "materialId": null,
+      "quantityOnHand": 320,
+      "updatedAt": "2026-11-10T09:15:00.000Z"
+    },
+    {
+      "id": "bal-4",
+      "factoryId": "fac-01",
+      "productId": null,
+      "materialId": "mat-virgin",
+      "quantityOnHand": 16050,
+      "updatedAt": "2026-11-24T13:15:00.000Z"
+    },
+    {
+      "id": "bal-5",
+      "factoryId": "fac-01",
+      "productId": null,
+      "materialId": "mat-regrind",
+      "quantityOnHand": 7600,
+      "updatedAt": "2026-11-24T15:15:00.000Z"
+    },
+    {
+      "id": "bal-6",
+      "factoryId": "fac-01",
+      "productId": null,
+      "materialId": "mat-mb-blk",
+      "quantityOnHand": 1350,
+      "updatedAt": "2026-11-24T13:15:00.000Z"
+    },
+    {
+      "id": "bal-7",
+      "factoryId": "fac-02",
+      "productId": null,
+      "materialId": "mat-virgin",
+      "quantityOnHand": 22000,
+      "updatedAt": "2026-11-10T09:15:00.000Z"
+    },
+    {
+      "id": "bal-8",
+      "factoryId": "fac-02",
+      "productId": null,
+      "materialId": "mat-regrind",
+      "quantityOnHand": 15400,
+      "updatedAt": "2026-11-23T15:15:00.000Z"
+    },
+    {
+      "id": "bal-9",
+      "factoryId": "fac-03",
+      "productId": "prod-pallet-exp",
+      "materialId": null,
+      "quantityOnHand": 505,
+      "updatedAt": "2026-11-22T17:15:00.000Z"
+    },
+    {
+      "id": "bal-10",
+      "factoryId": "fac-03",
+      "productId": null,
+      "materialId": "mat-virgin",
+      "quantityOnHand": 12575,
+      "updatedAt": "2026-11-22T17:15:00.000Z"
+    }
+  ],
+  "productionOrders": [
+    {
+      "id": "po-1",
+      "transactionId": "tx-prod-f1-1",
+      "machineId": "mac-f1-ex1",
+      "shiftId": "shift-day",
+      "productionDate": "2026-11-24",
+      "remarks": "Target melt flow index verified"
+    },
+    {
+      "id": "po-2",
+      "transactionId": "tx-prod-f1-2",
+      "machineId": "mac-f1-ex2",
+      "shiftId": "shift-night",
+      "productionDate": "2026-11-24",
+      "remarks": "Dual grade extrusion run"
+    },
+    {
+      "id": "po-3",
+      "transactionId": "tx-prod-f1-pend1",
+      "machineId": "mac-f1-im1",
+      "shiftId": "shift-day",
+      "productionDate": "2026-11-24",
+      "remarks": "Heavy duty pallet molding pending QA sign-off"
+    },
+    {
+      "id": "po-4",
+      "transactionId": "tx-prod-f3-1",
+      "machineId": "mac-f3-im2",
+      "shiftId": "shift-day",
+      "productionDate": "2026-11-22",
+      "remarks": "Export pallet container lot"
+    }
+  ],
+  "productionLines": [
+    {
+      "id": "pl-1",
+      "productionId": "po-1",
+      "productId": "prod-pellet-blk",
+      "quantity": 2500,
+      "sellingPrice": 310,
+      "productionValue": 775000
+    },
+    {
+      "id": "pl-2",
+      "productionId": "po-2",
+      "productId": "prod-pellet-blk",
+      "quantity": 1500,
+      "sellingPrice": 310,
+      "productionValue": 465000
+    },
+    {
+      "id": "pl-3",
+      "productionId": "po-2",
+      "productId": "prod-pellet-nat",
+      "quantity": 500,
+      "sellingPrice": 345,
+      "productionValue": 172500
+    },
+    {
+      "id": "pl-4",
+      "productionId": "po-3",
+      "productId": "prod-pallet-hd",
+      "quantity": 120,
+      "sellingPrice": 4850,
+      "productionValue": 582000
+    },
+    {
+      "id": "pl-5",
+      "productionId": "po-4",
+      "productId": "prod-pallet-exp",
+      "quantity": 95,
+      "sellingPrice": 3920,
+      "productionValue": 372400
+    }
+  ],
+  "productionOperators": [
+    {
+      "id": "pop-1",
+      "productionId": "po-1",
+      "operatorId": "u-op-1",
+      "operatorRole": "Lead Extruder"
+    },
+    {
+      "id": "pop-2",
+      "productionId": "po-1",
+      "operatorId": "u-op-2",
+      "operatorRole": "Bagging & QC"
+    },
+    {
+      "id": "pop-3",
+      "productionId": "po-2",
+      "operatorId": "u-op-2",
+      "operatorRole": "Lead Extruder"
+    },
+    {
+      "id": "pop-4",
+      "productionId": "po-3",
+      "operatorId": "u-op-1",
+      "operatorRole": "Press Operator"
+    },
+    {
+      "id": "pop-5",
+      "productionId": "po-4",
+      "operatorId": "u-op-3",
+      "operatorRole": "Molding Lead"
+    }
+  ],
+  "materialConsumptions": [
+    {
+      "id": "mc-1",
+      "productionId": "po-1",
+      "materialId": "mat-virgin",
+      "quantity": 2450,
+      "unitCost": 270
+    },
+    {
+      "id": "mc-2",
+      "productionId": "po-1",
+      "materialId": "mat-mb-blk",
+      "quantity": 100,
+      "unitCost": 620
+    },
+    {
+      "id": "mc-3",
+      "productionId": "po-2",
+      "materialId": "mat-regrind",
+      "quantity": 2000,
+      "unitCost": 185
+    },
+    {
+      "id": "mc-4",
+      "productionId": "po-3",
+      "materialId": "mat-virgin",
+      "quantity": 1800,
+      "unitCost": 270
+    },
+    {
+      "id": "mc-5",
+      "productionId": "po-4",
+      "materialId": "mat-virgin",
+      "quantity": 1425,
+      "unitCost": 270
+    }
+  ],
+  "dispatches": [
+    {
+      "id": "dsp-1",
+      "transactionId": "tx-disp-f1-1",
+      "customerId": "cust-04",
+      "dispatchDate": "2026-11-24",
+      "vehicleNumber": "WP LB-4418",
+      "deliveryNote": "DN-2026-881"
+    },
+    {
+      "id": "dsp-2",
+      "transactionId": "tx-disp-f1-pend1",
+      "customerId": "cust-01",
+      "dispatchDate": "2026-11-24",
+      "vehicleNumber": "NW KA-9021",
+      "deliveryNote": "DN-2026-884"
+    }
+  ],
+  "transfers": [
+    {
+      "id": "tr-1",
+      "transferNumber": "TR-F02-F01-019",
+      "fromFactory": "fac-02",
+      "toFactory": "fac-01",
+      "materialId": "mat-regrind",
+      "sentQuantity": 3000,
+      "unitCost": 185,
+      "transferOutTransactionId": "tx-tout-f2-01",
+      "transferInTransactionId": null,
+      "transferStatus": "in_transit",
+      "createdBy": "u-str-1",
+      "createdAt": "2026-11-23T14:15:00.000Z"
+    }
+  ],
+  "transferReceipts": [],
+  "documents": [
+    {
+      "id": "doc-1",
+      "transactionId": "tx-disp-f1-1",
+      "filePath": "fac-01/tx-disp-f1-1/metro-delivery-note.pdf",
+      "fileName": "metro-delivery-note.pdf",
+      "mimeType": "application/pdf",
+      "documentType": "Delivery Note",
+      "fileSizeBytes": 184320,
+      "uploadedBy": "u-dsp-1",
+      "uploadedAt": "2026-11-24T14:15:00.000Z"
+    },
+    {
+      "id": "doc-2",
+      "transactionId": "tx-disp-f1-pend1",
+      "filePath": "fac-01/tx-disp-f1-pend1/ceylon-logistics-po.pdf",
+      "fileName": "ceylon-logistics-po.pdf",
+      "mimeType": "application/pdf",
+      "documentType": "Customer Bill",
+      "fileSizeBytes": 245760,
+      "uploadedBy": "u-dsp-1",
+      "uploadedAt": "2026-11-24T17:15:00.000Z"
+    },
+    {
+      "id": "doc-3",
+      "transactionId": "tx-rec-f1-pend1",
+      "filePath": "fac-01/tx-rec-f1-pend1/sinopec-weighbridge.jpg",
+      "fileName": "sinopec-weighbridge.jpg",
+      "mimeType": "image/jpeg",
+      "documentType": "Weighbridge Ticket",
+      "fileSizeBytes": 412000,
+      "uploadedBy": "u-str-1",
+      "uploadedAt": "2026-11-24T17:15:00.000Z"
+    },
+    {
+      "id": "doc-4",
+      "transactionId": "tx-tout-f2-01",
+      "filePath": "fac-02/tx-tout-f2-01/transfer-bill-019.pdf",
+      "fileName": "transfer-bill-019.pdf",
+      "mimeType": "application/pdf",
+      "documentType": "Transfer Bill",
+      "fileSizeBytes": 129000,
+      "uploadedBy": "u-str-1",
+      "uploadedAt": "2026-11-23T14:15:00.000Z"
+    }
+  ],
+  "approvals": [
+    {
+      "id": "apr-1",
+      "transactionId": "tx-prod-f1-1",
+      "approvedBy": "u-mgr-1",
+      "decision": "approved",
+      "remarks": "Approved Day shift extrusion run",
+      "decidedAt": "2026-11-24T13:15:00.000Z"
+    },
+    {
+      "id": "apr-2",
+      "transactionId": "tx-prod-f1-2",
+      "approvedBy": "u-mgr-1",
+      "decision": "approved",
+      "remarks": "Approved Night shift extrusion run",
+      "decidedAt": "2026-11-24T15:15:00.000Z"
+    },
+    {
+      "id": "apr-3",
+      "transactionId": "tx-disp-f1-1",
+      "approvedBy": "u-mgr-1",
+      "decision": "approved",
+      "remarks": "Verified delivery note and stock availability",
+      "decidedAt": "2026-11-24T15:15:00.000Z"
+    },
+    {
+      "id": "apr-4",
+      "transactionId": "tx-tout-f2-01",
+      "approvedBy": "u-mgr-2",
+      "decision": "approved",
+      "remarks": "Released regrind truck to Main Factory",
+      "decidedAt": "2026-11-23T15:15:00.000Z"
+    }
+  ],
+  "auditLogs": [
+    {
+      "id": "aud-1",
+      "userId": "u-mgr-1",
+      "factoryId": "fac-01",
+      "action": "APPROVE_TRANSACTION",
+      "tableName": "stock_transactions",
+      "recordId": "tx-disp-f1-1",
+      "summary": "Approved DS-F01-208 (dispatch) and posted 1 stock movement(s).",
+      "createdAt": "2026-11-24T15:15:00.000Z"
+    },
+    {
+      "id": "aud-2",
+      "userId": "u-mgr-1",
+      "factoryId": "fac-01",
+      "action": "APPROVE_TRANSACTION",
+      "tableName": "stock_transactions",
+      "recordId": "tx-prod-f1-2",
+      "summary": "Approved PR-F01-105 (production) and posted 3 stock movement(s).",
+      "createdAt": "2026-11-24T15:15:00.000Z"
+    },
+    {
+      "id": "aud-3",
+      "userId": "u-mgr-2",
+      "factoryId": "fac-02",
+      "action": "APPROVE_TRANSACTION",
+      "tableName": "stock_transactions",
+      "recordId": "tx-tout-f2-01",
+      "summary": "Approved TO-F02-019 (transfer_out) — 3,000 kg in transit to Factory 01.",
+      "createdAt": "2026-11-23T15:15:00.000Z"
+    }
+  ],
+  "stockCounts": [],
+  "stockCountLines": [],
+  "settings": {
+    "companyName": "WAYAMBA PLASTIC (PVT) LTD",
+    "currency": "LKR",
+    "preventSelfApproval": true,
+    "requireDispatchDocument": false,
+    "stockOnlyMode": true,
+    "discrepancyAlertThresholdKg": 10
+  }
+}
